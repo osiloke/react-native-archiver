@@ -1,5 +1,5 @@
-
 # react-native-archiver
+An archiving utility library for working with multiple archiving formats
 
 ## Getting started
 
