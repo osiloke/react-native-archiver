@@ -13,7 +13,7 @@
 
 
 #### iOS
-
+## Not supported yet
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-archiver` and add `RNArchiver.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNArchiver.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
