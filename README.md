@@ -37,9 +37,9 @@
 
 ## Usage
 ```javascript
-import { untar } from 'react-native-archiver';
+import RNArchiver from 'react-native-archiver';
 
 // TODO: What to do with the module?
-untar(archivePath, destinationPath);
+RNArchiver.untar(archivePath, destinationPath);
 ```
   
