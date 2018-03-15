@@ -29,22 +29,41 @@ public class RNArchiverModule extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
+  public void untarGzip(final String tarPath, final String destDirectory, final Promise promise) {
+    Archiver archiver = ArchiverFactory.createArchiver(ArchiveFormat.TAR, CompressionType.GZIP);
+    doExtract(tarPath, destDirectory, archiver, promise);
+  }
+
+  @ReactMethod
   public void untar(final String tarPath, final String destDirectory, final Promise promise) {
+      Archiver archiver = ArchiverFactory.createArchiver("tar");
+      doExtract(tarPath, destDirectory, archiver, promise);
+  }
+
+  @ReactMethod
+  public void extract(final String tarPath, final String destDirectory, final String format, final Promise promise) {
+    extract(tarPath, destDirectory, format, promise);
+  }
+
+  private void doExtract(final String tarPath, final String destDirectory, final Archiver archiver, final Promise promise) {
     new Thread(new Runnable() {
       @Override
       public void run() {
         try{
-          try { 
-            File archive = new File(tarPath); 
+          try {
+            File archive = new File(tarPath);
             if (!archive.exists()){
-              promise.reject(null, tarPath + " does not exist"); 
+              promise.reject(null, tarPath + " does not exist");
               return;
             }
-            File destination = new File(destDirectory); 
+            File destination = new File(destDirectory);
             if (!destination.exists()){
               destination.mkdirs();
             }
-            Archiver archiver = ArchiverFactory.createArchiver(ArchiveFormat.TAR, CompressionType.GZIP);
+            if (archiver == null) {
+              promise.reject(null, "Unknown archiver/format");
+            }
+
             try {
               archiver.extract(archive, destination);
             } catch (Exception ex) {
@@ -53,7 +72,7 @@ public class RNArchiverModule extends ReactContextBaseJavaModule {
             }
             promise.resolve(destDirectory);
           } catch (Exception ex) {
-            ex.printStackTrace(); 
+            ex.printStackTrace();
             throw new Exception(String.format("Couldn't untar %s", tarPath));
           }
         } catch (Exception ex) {
